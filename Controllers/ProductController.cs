@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProjectFarfetch.Entities;
+using ProjectFarfetch.Categorie;
 
 namespace ProjectFarfetch.Controllers
 {
@@ -17,6 +18,7 @@ namespace ProjectFarfetch.Controllers
 
 
 
+
         [HttpGet("Search/All")]
         public IEnumerable<Product> Get()
         {
@@ -26,7 +28,7 @@ namespace ProjectFarfetch.Controllers
         
         [HttpGet("Search/Filter")]
         
-        public IEnumerable<Product> GetAll(int id, int? stock = null, double? minPrice = null, double? maxPrice = null,string Categorys = null)
+        public IEnumerable<Product> GetAll(int id, int? Stock = null, double? minPrice = null, double? maxPrice = null,string Categories = null)
         {
             var filter = productList;
 
@@ -35,24 +37,24 @@ namespace ProjectFarfetch.Controllers
                 filter = filter.Where(p => p.Id == id).ToList();
             }
 
-            if (stock != null)
+            if (Stock != null)
             {
-                filter = filter.Where(p => p.stock >= stock).ToList();
+                filter = filter.Where(p => p.Stock >= Stock).ToList();
             }
 
             if (minPrice != null)
             {
-                filter = filter.Where(i => i.price >= minPrice).ToList();
+                filter = filter.Where(i => i.Price >= minPrice).ToList();
             }
 
             if (maxPrice != null)
             {
-                filter = filter.Where(p => p.price <= maxPrice).ToList();
+                filter = filter.Where(p => p.Price <= maxPrice).ToList();
             }
 
-            if (!string.IsNullOrEmpty(Categorys))
+            if (!string.IsNullOrEmpty(Categories))
             {
-                filter = filter.Where(p => p.categorys.ToString() == Categorys).ToList();
+                filter = filter.Where(p => p.categories.ToString() == Categories).ToList();
             }
 
             return filter;
@@ -63,16 +65,16 @@ namespace ProjectFarfetch.Controllers
         public IActionResult CreateProduct([FromBody] Product product)
         {
         
-        switch (product.categorys.ToString())
+        switch (product.categories.ToString())
         {
             case "Drink":
-                product.categorys = Category.Drink;
+                product.categories = Categories.Drink;
             break;
             case "Food":
-                product.categorys = Category.Food;
+                product.categories = Categories.Food;
             break;
             case "Clothing":
-                product.categorys = Category.Clothing;
+                product.categories = Categories.Clothing;
             break;
             
             default:
@@ -96,10 +98,10 @@ namespace ProjectFarfetch.Controllers
                 return NotFound();
             }
 
-            ProductToUpdate.name = updateproduct.name;
-            ProductToUpdate.price = updateproduct.price;
-            ProductToUpdate.stock = updateproduct.stock;
-            ProductToUpdate.categorys = updateproduct.categorys;
+            ProductToUpdate.Name = updateproduct.Name;
+            ProductToUpdate.Price = updateproduct.Price;
+            ProductToUpdate.Stock = updateproduct.Stock;
+            ProductToUpdate.categories = updateproduct.categories;
 
             return NoContent();
 

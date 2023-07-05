@@ -8,26 +8,21 @@ namespace ProjectFarfetch.Entities
     public class Product
     {
         public int Id { get; set; }
-        public string? name { get; set; }
-        public double price { get; set; }
-        public int stock { get; set; }
-        public double tax = 0.06;
-        public Category categorys {get; set;}
+        public string Name { get; set; } 
+        public double Price { get; set; }
+        public int Stock { get; set; }
+        public int Quantity { get; set; }
         
-        public decimal FinalPrice
-        {
-            get 
-            { 
-                decimal finalPrice = (decimal)(price * stock + (price * tax));
-                return Math.Round(finalPrice, 2);
-            }
-        }
-    }
 
-    public enum Category
+        public Categories categories { get; set; }
+
+
+
+    }
+    public enum Categories
     {
         Drink,
-        Food,
-        Clothing
+        Clothing,
+        Food
     }
 }
